@@ -3,17 +3,24 @@ from log_analyzer.analyzer import LogAnalyzer
 from log_analyzer.utils import save_results_to_json
 
 
-def main():
-    # We could also use click package here but used argparse to avoid a new dependency
+def parse_arguments():
+    # We could also use click package here but used argparse to avoid a
+    # new dependency
     parser = argparse.ArgumentParser(description='Log Analyzer Tool')
     parser.add_argument('input', nargs='+', help='Path to input log file(s)')
     parser.add_argument('output', help='Path to output JSON file')
     parser.add_argument('--mfip', action='store_true', help='Most frequent IP')
-    parser.add_argument('--lfip', action='store_true', help='Least frequent IP')
+    parser.add_argument('--lfip', action='store_true',
+                        help='Least frequent IP')
     parser.add_argument('--eps', action='store_true', help='Events per second')
-    parser.add_argument('--bytes', action='store_true', help='Total amount of bytes exchanged')
+    parser.add_argument('--bytes', action='store_true',
+                        help='Total amount of bytes exchanged')
 
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():
+    args = parse_arguments()
 
     analyzer = LogAnalyzer(args.input)
     analyzer.parse_logs()

@@ -8,8 +8,9 @@ class LogAnalyzer:
 
     def parse_logs(self):
         columns = [
-            'timestamp', 'response_header_size', 'client_ip', 'http_response_code',
-            'response_size', 'http_request_method', 'url', 'username', 'access_type', 'response_type'
+            'timestamp', 'response_header_size', 'client_ip',
+            'http_response_code', 'response_size', 'http_request_method',
+            'url', 'username', 'access_type', 'response_type'
         ]
 
         converters = {
@@ -27,7 +28,9 @@ class LogAnalyzer:
         logs_list = []
 
         for file in self.files:
-            logs_df = pd.read_csv(file, sep=r'\s+', names=columns, converters=converters, header=None, usecols=range(10))
+            logs_df = pd.read_csv(file, sep=r'\s+', names=columns,
+                                  converters=converters, header=None,
+                                  usecols=range(10))
             logs_list.append(logs_df)
 
         self.logs = pd.concat(logs_list, ignore_index=True)
@@ -51,4 +54,5 @@ class LogAnalyzer:
         return float(len(self.logs) / duration) if duration > 0 else 0
 
     def total_bytes_exchanged(self):
-        return int(self.logs['response_size'].sum() + self.logs['response_header_size'].sum())
+        return int(self.logs['response_size'].sum() +
+                   self.logs['response_header_size'].sum())
