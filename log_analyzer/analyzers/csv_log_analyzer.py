@@ -1,11 +1,8 @@
 import pandas as pd
+from .base_log_analyzer import BaseLogAnalyzer
 
 
-class LogAnalyzer:
-    def __init__(self, files):
-        self.files = files
-        self.logs = pd.DataFrame()
-
+class CSVLogAnalyzer(BaseLogAnalyzer):
     def parse_logs(self):
         columns = [
             "timestamp",
@@ -67,5 +64,8 @@ class LogAnalyzer:
 
     def total_bytes_exchanged(self):
         return int(
-            self.logs["response_size"].sum() + self.logs["response_header_size"].sum()
+            self.logs["response_size"].sum() + self.logs[
+                "response_header_size"].sum()
         )
+
+

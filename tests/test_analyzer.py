@@ -3,8 +3,9 @@ from unittest.mock import patch
 import pandas as pd
 import pytest
 
-from log_analyzer.analyzer import LogAnalyzer
+from log_analyzer.factories.log_analyzer_factory import LogAnalyzerFactory
 
+from config import constants as cons
 
 @pytest.fixture
 def sample_data():
@@ -28,43 +29,47 @@ def sample_data():
     )
 
 
-@patch("log_analyzer.analyzer.pd.read_csv")
+@patch("log_analyzer.analyzers.csv_log_analyzer.pd.read_csv")
 def test_most_frequent_ip(mock_read_csv, sample_data):
     mock_read_csv.return_value = sample_data
 
-    analyzer = LogAnalyzer(["dummy_path.csv"])
+    analyzer = LogAnalyzerFactory.create_log_analyzer(
+        ["dummy_path.csv"], cons.FileFormat.CSV.value)
     analyzer.parse_logs()
     assert analyzer.most_frequent_ip() == "10.105.21.199"
 
 
-@patch("log_analyzer.analyzer.pd.read_csv")
+@patch("log_analyzer.analyzers.csv_log_analyzer.pd.read_csv")
 def test_least_frequent_ip(mock_read_csv, sample_data):
     mock_read_csv.return_value = sample_data
 
-    analyzer = LogAnalyzer(["dummy_path.csv"])
+    analyzer = LogAnalyzerFactory.create_log_analyzer(
+        ["dummy_path.csv"], cons.FileFormat.CSV.value)
     analyzer.parse_logs()
     assert analyzer.least_frequent_ip() == "10.105.21.200"
 
 
-@patch("log_analyzer.analyzer.pd.read_csv")
+@patch("log_analyzer.analyzers.csv_log_analyzer.pd.read_csv")
 def test_events_per_second(mock_read_csv, sample_data):
     mock_read_csv.return_value = sample_data
 
-    analyzer = LogAnalyzer(["dummy_path.csv"])
+    analyzer = LogAnalyzerFactory.create_log_analyzer(
+        ["dummy_path.csv"], cons.FileFormat.CSV.value)
     analyzer.parse_logs()
     assert analyzer.events_per_second() == 1.5
 
 
-@patch("log_analyzer.analyzer.pd.read_csv")
+@patch("log_analyzer.analyzers.csv_log_analyzer.pd.read_csv")
 def test_total_bytes_exchanged(mock_read_csv, sample_data):
     mock_read_csv.return_value = sample_data
 
-    analyzer = LogAnalyzer(["dummy_path.csv"])
+    analyzer = LogAnalyzerFactory.create_log_analyzer(
+        ["dummy_path.csv"], cons.FileFormat.CSV.value)
     analyzer.parse_logs()
     assert analyzer.total_bytes_exchanged() == 5313
 
 
-@patch("log_analyzer.analyzer.pd.read_csv")
+@patch("log_analyzer.analyzers.csv_log_analyzer.pd.read_csv")
 def test_empty_file(mock_read_csv):
     empty_data = pd.DataFrame(
         columns=[
@@ -82,7 +87,8 @@ def test_empty_file(mock_read_csv):
     )
     mock_read_csv.return_value = empty_data
 
-    analyzer = LogAnalyzer(["dummy_path.csv"])
+    analyzer = LogAnalyzerFactory.create_log_analyzer(
+        ["dummy_path.csv"], cons.FileFormat.CSV.value)
     analyzer.parse_logs()
     assert analyzer.most_frequent_ip() is None
     assert analyzer.least_frequent_ip() is None
@@ -90,12 +96,13 @@ def test_empty_file(mock_read_csv):
     assert analyzer.total_bytes_exchanged() == 0
 
 
-@patch("log_analyzer.analyzer.pd.read_csv")
+@patch("log_analyzer.analyzers.csv_log_analyzer.pd.read_csv")
 def test_single_entry(mock_read_csv, sample_data):
     single_entry_data = sample_data.iloc[:1]
     mock_read_csv.return_value = single_entry_data
 
-    analyzer = LogAnalyzer(["dummy_path.csv"])
+    analyzer = LogAnalyzerFactory.create_log_analyzer(
+        ["dummy_path.csv"], cons.FileFormat.CSV.value)
     analyzer.parse_logs()
     assert analyzer.most_frequent_ip() == "10.105.21.199"
     assert analyzer.least_frequent_ip() == "10.105.21.199"
