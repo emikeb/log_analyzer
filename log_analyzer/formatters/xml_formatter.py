@@ -1,13 +1,14 @@
-from xml.etree.ElementTree import Element, tostring
-
 from .base_formatter import BaseFormatter
 
 
 class XmlFormatter(BaseFormatter):
     def format_output(self, data):
-        root = Element("data")
+        xml_str = "<data>\n"
+
         for key, value in data.items():
-            element = Element(key)
-            element.text = str(value)
-            root.append(element)
-        return tostring(root, encoding="utf8").decode("utf8")
+            xml_str += f"  <{key}>{value}</{key}>\n"
+
+        xml_str += "</data>"
+
+        return xml_str
+
