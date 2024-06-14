@@ -11,4 +11,3 @@ class XmlFormatter(BaseFormatter):
         xml_str += "</data>"
 
         return xml_str
-

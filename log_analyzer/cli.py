@@ -2,8 +2,7 @@ import argparse
 
 from config import constants as cons
 from log_analyzer.factories.log_analyzer_factory import LogAnalyzerFactory
-from log_analyzer.factories.output_formatter_factory import \
-    OutputFormatterFactory
+from log_analyzer.factories.output_formatter_factory import OutputFormatterFactory
 from log_analyzer.utils import file_validator
 
 
