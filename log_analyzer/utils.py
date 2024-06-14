@@ -18,3 +18,4 @@ def file_validator(args):
     file_format = file_formats.pop()
     if file_format not in cons.allowed_formats:
         raise ValueError("Unsupported file format {}.".format(format))
+    return file_format
