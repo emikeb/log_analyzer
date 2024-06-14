@@ -1,11 +1,9 @@
 import pandas as pd
 
+from .base_log_analyzer import BaseLogAnalyzer
 
-class LogAnalyzer:
-    def __init__(self, files):
-        self.files = files
-        self.logs = pd.DataFrame()
 
+class CSVLogAnalyzer(BaseLogAnalyzer):
     def parse_logs(self):
         columns = [
             "timestamp",

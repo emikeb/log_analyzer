@@ -1,7 +1,7 @@
 import argparse
 
-from log_analyzer.analyzer import LogAnalyzer
-from log_analyzer.utils import save_results_to_json
+from log_analyzer.factories.log_analyzer_factory import LogAnalyzerFactory
+from log_analyzer.utils import file_validator, save_results_to_json
 
 
 def parse_arguments():
@@ -23,7 +23,8 @@ def parse_arguments():
 def main():
     args = parse_arguments()
 
-    analyzer = LogAnalyzer(args.input)
+    file_format = file_validator(args)
+    analyzer = LogAnalyzerFactory.create_log_analyzer(args.input, file_format)
     analyzer.parse_logs()
 
     results = {}
