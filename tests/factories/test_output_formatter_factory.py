@@ -1,7 +1,8 @@
 import pytest
 
 from config.constants import FileFormat as Ff
-from log_analyzer.factories.output_formatter_factory import OutputFormatterFactory
+from log_analyzer.factories.output_formatter_factory import \
+    OutputFormatterFactory
 from log_analyzer.formatters.csv_formatter import CsvFormatter
 from log_analyzer.formatters.json_formatter import JsonFormatter
 from log_analyzer.formatters.xml_formatter import XmlFormatter
