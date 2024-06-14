@@ -6,9 +6,9 @@
 
 Log Analyzer is a Python tool designed to parse and analyze log files, extracting useful metrics such as the most and least frequent IP addresses, events per second, and total bytes exchanged.
 
-## Features
+## Current Features
 
-- **Parse Logs**: Efficiently read and process log files.
+- **Parse Logs**: Read and process log files.
 - **Frequent IP Analysis**: Identify the most and least frequent client IP addresses.
 - **Event Rate Calculation**: Calculate the number of events per second.
 - **Data Summary**: Sum up total bytes exchanged in the log files.
@@ -18,10 +18,8 @@ Log Analyzer is a Python tool designed to parse and analyze log files, extractin
 - [Installation](#installation)
 - [Usage](#usage)
   - [Command Line Interface](#command-line-interface)
-  - [Python API](#python-api)
 - [Examples](#examples)
 - [Testing](#testing)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Installation
@@ -81,22 +79,7 @@ log-analyzer [OPTIONS] input_files... output_file
 ```bash
 log-analyzer --mfip --lfip --eps --bytes logs/access.log output.json
 ```
-### Python API
 
-You can also use the log analyzer as a Python module:
-
-```python
-from log_analyzer.analyzer import LogAnalyzer
-
-files = ['path/to/access.log']
-analyzer = LogAnalyzer(files)
-analyzer.parse_logs()
-
-print(analyzer.most_frequent_ip())
-print(analyzer.least_frequent_ip())
-print(analyzer.events_per_second())
-print(analyzer.total_bytes_exchanged())
-```
 ## Examples
 
 ### Most Frequent IP:
@@ -105,7 +88,7 @@ print(analyzer.total_bytes_exchanged())
 log-analyzer --mfip logs/access.log output.json
 ```
 
-### Full Analysis
+### Full Analysis:
 
 To perform a comprehensive analysis of your log file, including calculating the most frequent IP address, least frequent IP address, events per second (EPS), and total bytes exchanged, use the following command:
 
@@ -115,9 +98,7 @@ log-analyzer --mfip --lfip --eps --bytes logs/access.log output.json
 
 ## Testing
 
-To run the tests for this project, follow these steps:
-
-1. **Install pytest**: If you haven't installed pytest yet, you can do so using pip:
+To run the tests for this project, use the following commands:
    
    ```bash
    pip install pytest
