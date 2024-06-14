@@ -8,7 +8,7 @@ from ..analyzers.json_log_analyzer import JSONLogAnalyzer
 class LogAnalyzerFactory:
     @staticmethod
     def create_log_analyzer(file_path, file_format):
-        if file_format == FileFormat.LOG:
+        if file_format == FileFormat.LOG.value:
             return CSVLogAnalyzer(file_path)
         if file_format == FileFormat.CSV.value:
             return CSVLogAnalyzer(file_path)
