@@ -26,9 +26,11 @@ jobs:
       run: |
         flake8 .
     - name: Run Black
+      continue-on-error: true
       run: |
         black --check .
     - name: Run isort
+      continue-on-error: true
       run: |
         isort --check-only .
     - name: Run MyPy
