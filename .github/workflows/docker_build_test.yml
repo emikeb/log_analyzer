@@ -29,8 +29,8 @@ jobs:
 
     - name: Check output
       run: |
-        output=$(cat logs/output.json)
-        expected_output='{"most_frequent_ip": "10.105.21.199", "least_frequent_ip": "10.105.21.199", "events_per_second": 0, "total_bytes_exchanged": 1500}'
+        output=$(cat logs/output.json | tr -d '[:space:]')
+        expected_output='{"most_frequent_ip":"10.105.21.199","least_frequent_ip":"10.105.21.199","events_per_second":0,"total_bytes_exchanged":1500}'
         if [ "$output" != "$expected_output" ]; then
           echo "Output does not match expected output."
           echo "Actual: $output"
