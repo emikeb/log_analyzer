@@ -1,7 +1,10 @@
 import argparse
 
 from log_analyzer.factories.log_analyzer_factory import LogAnalyzerFactory
-from log_analyzer.utils import file_validator, save_results_to_json
+from log_analyzer.utils import file_validator
+from log_analyzer.factories.output_formatter_factory import OutputFormatterFactory
+
+from config import constants as cons
 
 
 def parse_arguments():
@@ -37,8 +40,11 @@ def main():
     if args.bytes:
         results["total_bytes_exchanged"] = analyzer.total_bytes_exchanged()
 
-    save_results_to_json(results, args.output)
-    print(results)
+    output_formatter = OutputFormatterFactory.create_output_formatter(
+        args.output, cons.FileFormat.XML.value
+    )
+    output = output_formatter.format_output(results)
+    print(output)
 
 
 if __name__ == "__main__":
