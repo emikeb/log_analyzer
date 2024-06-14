@@ -1,0 +1,40 @@
+name: Docker Image CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Build
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag log_analyzer:latest
+
+    - name: Add sample log file
+      run: echo '1157689321.315     36 10.105.21.199 TCP_HIT/200 1464 GET http://www.goonernews.com/styles.css badeyek NONE/- text/css' > logs/access.log
+
+    - name: Run the Docker container
+      run: |
+        docker run --rm -v $(pwd)/logs:/logs log_analyzer /logs/access.log /logs/output.json --mfip --lfip --eps --bytes
+
+    - name: Check output
+      run: |
+        output=$(cat logs/output.json)
+        expected_output='{"most_frequent_ip": "10.105.21.199", "least_frequent_ip": "10.105.21.199", "events_per_second": 0, "total_bytes_exchanged": 1500}'
+        if [ "$output" != "$expected_output" ]; then
+          echo "Output does not match expected output."
+          echo "Actual: $output"
+          echo "Expected: $expected_output"
+          exit 1
+        fi
+      shell: bash
