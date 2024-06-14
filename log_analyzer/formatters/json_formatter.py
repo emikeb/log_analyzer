@@ -1,4 +1,5 @@
 import json
+
 from .base_formatter import BaseFormatter
 
 

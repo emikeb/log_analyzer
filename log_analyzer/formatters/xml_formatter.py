@@ -1,4 +1,5 @@
 from xml.etree.ElementTree import Element, tostring
+
 from .base_formatter import BaseFormatter
 
 

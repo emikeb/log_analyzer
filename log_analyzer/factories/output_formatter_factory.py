@@ -1,8 +1,8 @@
-from ..formatters.json_formatter import JsonFormatter
-from ..formatters.csv_formatter import CsvFormatter
-from ..formatters.xml_formatter import XmlFormatter
-
 from config.constants import FileFormat as Ff
+
+from ..formatters.csv_formatter import CsvFormatter
+from ..formatters.json_formatter import JsonFormatter
+from ..formatters.xml_formatter import XmlFormatter
 
 
 class OutputFormatterFactory:
