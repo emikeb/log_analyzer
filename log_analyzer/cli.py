@@ -41,7 +41,7 @@ def main():
         results["total_bytes_exchanged"] = analyzer.total_bytes_exchanged()
 
     output_formatter = OutputFormatterFactory.create_output_formatter(
-        args.output, cons.FileFormat.XML.value
+        args.output, cons.FileFormat.JSON.value
     )
     output = output_formatter.format_output(results)
     print(output)
