@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 from .base_log_analyzer import BaseLogAnalyzer
 
@@ -18,18 +19,6 @@ class CSVLogAnalyzer(BaseLogAnalyzer):
             "response_type",
         ]
 
-        converters = {
-            "timestamp": float,
-            "response_header_size": int,
-            "client_ip": str,
-            "http_response_code": str,
-            "response_size": int,
-            "http_request_method": str,
-            "url": str,
-            "username": str,
-            "access_type": str,
-            "response_type": str,
-        }
         logs_list = []
 
         for file in self.files:
@@ -37,13 +26,32 @@ class CSVLogAnalyzer(BaseLogAnalyzer):
                 file,
                 sep=r"\s+",
                 names=columns,
-                converters=converters,
                 header=None,
                 usecols=range(10),
+                dtype=str
             )
             logs_list.append(logs_df)
 
         self.logs = pd.concat(logs_list, ignore_index=True)
+
+        self.logs["timestamp"] = self.logs["timestamp"].apply(
+            self.parse_timestamp)
+        self.logs["response_header_size"] = self.logs[
+            "response_header_size"].apply(self.parse_int)
+        self.logs["response_size"] = self.logs["response_size"].apply(
+            self.parse_int)
+
+    def parse_timestamp(self, value):
+        try:
+            return float(value)
+        except ValueError:
+            return 0.0
+
+    def parse_int(self, value):
+        try:
+            return int(value)
+        except ValueError:
+            return 0
 
     def most_frequent_ip(self):
         if self.logs.empty:
@@ -58,12 +66,19 @@ class CSVLogAnalyzer(BaseLogAnalyzer):
     def events_per_second(self):
         if self.logs.empty:
             return 0
-        start_time = self.logs["timestamp"].min()
-        end_time = self.logs["timestamp"].max()
+
+        valid_start_timestamps = self.logs["timestamp"][
+            self.logs["timestamp"] > 0]
+        valid_end_timestamps = self.logs["timestamp"][
+            self.logs["timestamp"] > 0]
+
+        start_time = valid_start_timestamps.min() if not valid_start_timestamps.empty else 0
+        end_time = valid_end_timestamps.max() if not valid_end_timestamps.empty else 0
         duration = end_time - start_time
         return float(len(self.logs) / duration) if duration > 0 else 0
 
     def total_bytes_exchanged(self):
         return int(
-            self.logs["response_size"].sum() + self.logs["response_header_size"].sum()
+            self.logs["response_size"].sum() + self.logs[
+                "response_header_size"].sum()
         )

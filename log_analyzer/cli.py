@@ -1,10 +1,6 @@
 import argparse
 
-from config import constants as cons
-from log_analyzer.factories.log_analyzer_factory import LogAnalyzerFactory
-from log_analyzer.factories.output_formatter_factory import \
-    OutputFormatterFactory
-from log_analyzer.utils import file_validator
+from log_analyzer.core import Core
 
 
 def parse_arguments():
@@ -14,7 +10,8 @@ def parse_arguments():
     parser.add_argument("input", nargs="+", help="Path to input log file(s)")
     parser.add_argument("output", help="Path to output JSON file")
     parser.add_argument("--mfip", action="store_true", help="Most frequent IP")
-    parser.add_argument("--lfip", action="store_true", help="Least frequent IP")
+    parser.add_argument("--lfip", action="store_true",
+                        help="Least frequent IP")
     parser.add_argument("--eps", action="store_true", help="Events per second")
     parser.add_argument(
         "--bytes", action="store_true", help="Total amount of bytes exchanged"
@@ -24,28 +21,14 @@ def parse_arguments():
 
 
 def main():
-    args = parse_arguments()
-
-    file_format = file_validator(args)
-    analyzer = LogAnalyzerFactory.create_log_analyzer(args.input, file_format)
-    analyzer.parse_logs()
-
-    results = {}
-    if args.mfip:
-        results["most_frequent_ip"] = analyzer.most_frequent_ip()
-    if args.lfip:
-        results["least_frequent_ip"] = analyzer.least_frequent_ip()
-    if args.eps:
-        results["events_per_second"] = analyzer.events_per_second()
-    if args.bytes:
-        results["total_bytes_exchanged"] = analyzer.total_bytes_exchanged()
-
-    output_formatter = OutputFormatterFactory.create_output_formatter(
-        args.output, cons.FileFormat.JSON.value
-    )
-    output = output_formatter.format_output(results)
+    core = Core(parse_arguments())
+    core.analyze_input()
+    output = core.generate_output(core.get_analysis_results())
     print(output)
 
 
 if __name__ == "__main__":
     main()
+
+
+
