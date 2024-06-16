@@ -16,10 +16,12 @@ Log Analyzer is a Python tool designed to parse and analyze log files, extractin
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-  - [Command Line Interface](#command-line-interface)
+- [Command Line Interface](#command-line-interface)
 - [Examples](#examples)
+- [Tools Logs](#tool-logs)
 - [Testing](#testing)
+- [Continuous Integration](#continuous-integration)
+- [Assumptions](#assumptions)
 - [License](#license)
 
 ## Installation
@@ -58,9 +60,7 @@ Log Analyzer is a Python tool designed to parse and analyze log files, extractin
     docker run --rm -v $(pwd)/logs:/logs log-analyzer /logs/access.log /logs/output.json --mfip --lfip --eps --bytes
     ```
 
-## Usage
-
-### Command Line Interface
+## Command Line Interface
 
 To analyze logs from the command line, use the following syntax:
 
@@ -73,6 +73,9 @@ log-analyzer [OPTIONS] input_files... output_file
 - `--lfip` : Find the least frequent IP address.
 - `--eps`  : Calculate events per second.
 - `--bytes` : Calculate the total bytes exchanged.
+- `-f, --out_format`: Specify the output format. Choices are determined by configuration file.
+- `--debug`: Enable debug logging in console
+- `--version`: Show program's version number
 
 **Example:**
 
@@ -96,6 +99,20 @@ To perform a comprehensive analysis of your log file, including calculating the 
 log-analyzer --mfip --lfip --eps --bytes logs/access.log output.json
 ```
 
+## Tool logs
+
+By default, Log Analyzer runs with standard logging levels. To enable debug logs for more detailed output, use the `--debug` flag when running the tool.
+
+Additionally, Log Analyzer logs information to the `log_analyzer_tool.log` file. This log file is useful for troubleshooting and can be especially beneficial when running the tool in different containers or when collecting logs to a centralized log aggregator.
+
+**Example**
+````text
+Sun, 16 Jun 2024 02:03:48: INFO: {'most_frequent_ip': '10.105.21.199', 'least_frequent_ip': '10.105.21.193', 'events_per_second': 2.04, 'total_bytes_exchanged': 70801}
+Sun, 16 Jun 2024 02:08:52: INFO: Starting the program with arguments: ['cli.py', '../logs/example_invaalid_data.log', '../output.json', '--mfip', '--lfip', '--eps', '--bytes']
+Sun, 16 Jun 2024 02:08:52: ERROR: File not found: [Errno 2] No such file or directory: '../logs/example_invaalid_data.log'
+Traceback (most recent call last):
+...continue...
+````
 ## Testing
 
 To run the tests for this project, use the following commands:
@@ -104,6 +121,44 @@ To run the tests for this project, use the following commands:
    pip install pytest
    pytest
    ```
+
+## Continuous Integration
+
+### Docker Image CI
+
+The Docker Image CI workflow ensures the Log Analyzer Docker image is built correctly and passes system tests:
+
+- **Trigger**: Automatically runs on `push` and `pull_request` events.
+- **Steps**:
+  1. **Checkout code**: Retrieves the latest code from the repository.
+  2. **Build the Docker image**: Builds the Log Analyzer Docker image using Dockerfile.
+  3. **Add sample log file**: Creates a sample log file for testing purposes.
+  4. **Run the Docker container**: Executes the Docker container with specified inputs and options.
+  5. **Check output**: Validates the output JSON against expected results to ensure correct functionality passing the system test.
+
+### Log Analyzer CI
+
+The Log Analyzer CI workflow integrates DevSecOps best practices to enhance security, quality, and reliability:
+
+- **Trigger**: Automatically runs on `push` and `pull_request` events.
+- **Jobs**:
+  - **Linting and Static Analysis**: Ensures code style and identifies potential issues using Flake8, Black, isort, and MyPy.
+  - **Security Checks**: Validates code security with checks using Safety and Bandit to detect vulnerabilities and insecure practices.
+  - **Testing and Coverage**: Executes unit tests with pytest and measures code coverage using Coverage.py to maintain quality and reliability.
+
+By adhering to DevSecOps best practices in our CI workflows, we prioritize security, code quality, and reliability throughout the development lifecycle of Log Analyzer.
+Each workflow runs on an ubuntu environment and results of these workflows can be viewed directly in the GitHub Actions tab.
+
+## Assumptions
+
+The project aims to meet diverse input and output format requirements while ensuring fault tolerance and considering future extensibility. 
+Additionally, efforts were made to align with DevSecOps best practices and containerize the application.
+However, certain design assumptions were made during development:
+
+- All input files must adhere to the same format when processing multiple input files simultaneously.
+- During log parsing, if an invalid record is encountered, attempts are made to parse different values, ignoring erroneous data to ensure robust processing.
+- When determining the most or least frequent IP addresses, if multiple IPs have the same frequency, the system will select only one IP as the result.
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
