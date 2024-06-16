@@ -12,19 +12,23 @@ class Core:
     def analyze_input(self):
         file_format = file_validator(self.args)
         self.analyzer = LogAnalyzerFactory.create_log_analyzer(
-            self.args.input, file_format)
+            self.args.input, file_format
+        )
         self.analyzer.parse_logs()
 
     def get_analysis_results(self):
         options = [
-            ("most_frequent_ip", self.args.mfip,
-             self.analyzer.most_frequent_ip),
-            ("least_frequent_ip", self.args.lfip,
-             self.analyzer.least_frequent_ip),
-            ("events_per_second", self.args.eps,
-             self.analyzer.events_per_second),
-            ("total_bytes_exchanged", self.args.bytes,
-             self.analyzer.total_bytes_exchanged),
+            ("most_frequent_ip",
+             self.args.mfip, self.analyzer.most_frequent_ip),
+            ("least_frequent_ip",
+             self.args.lfip, self.analyzer.least_frequent_ip),
+            ("events_per_second",
+             self.args.eps, self.analyzer.events_per_second),
+            (
+                "total_bytes_exchanged",
+                self.args.bytes,
+                self.analyzer.total_bytes_exchanged,
+            ),
         ]
         results = {key: method() for key, flag, method in options if flag}
         return results

@@ -7,4 +7,5 @@ class BaseFormatter(ABC):
 
     @abstractmethod
     def format_output(self, data):
-        raise NotImplementedError("Subclasses should implement parse_logs method.")
+        raise NotImplementedError(
+            "Subclasses should implement parse_logs method.")

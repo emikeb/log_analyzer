@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 from .base_log_analyzer import BaseLogAnalyzer
 
@@ -42,18 +41,17 @@ class CSVLogAnalyzer(BaseLogAnalyzer):
                 names=columns,
                 header=None,
                 usecols=range(10),
-                dtype=str
+                dtype=str,
             )
             logs_list.append(logs_df)
 
         self.logs = pd.concat(logs_list, ignore_index=True)
 
-        self.logs["timestamp"] = self.logs["timestamp"].apply(
-            parse_timestamp)
+        self.logs["timestamp"] = self.logs["timestamp"].apply(parse_timestamp)
         self.logs["response_header_size"] = self.logs[
             "response_header_size"].apply(parse_int)
-        self.logs["response_size"] = self.logs["response_size"].apply(
-            parse_int)
+        self.logs["response_size"] = self.logs[
+            "response_size"].apply(parse_int)
 
     def most_frequent_ip(self):
         if self.logs.empty:
@@ -74,13 +72,22 @@ class CSVLogAnalyzer(BaseLogAnalyzer):
         valid_end_timestamps = self.logs["timestamp"][
             self.logs["timestamp"] > 0]
 
-        start_time = valid_start_timestamps.min() if not valid_start_timestamps.empty else 0
-        end_time = valid_end_timestamps.max() if not valid_end_timestamps.empty else 0
+        start_time = (
+            valid_start_timestamps.min()
+            if not valid_start_timestamps.empty
+            else 0
+        )
+        end_time = (
+            valid_end_timestamps.max()
+            if not valid_end_timestamps.empty
+            else 0
+        )
+
         duration = end_time - start_time
         return float(len(self.logs) / duration) if duration > 0 else 0
 
     def total_bytes_exchanged(self):
         return int(
-            self.logs["response_size"].sum() + self.logs[
-                "response_header_size"].sum()
+            self.logs["response_size"].sum() +
+            self.logs["response_header_size"].sum()
         )

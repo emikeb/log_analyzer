@@ -1,7 +1,7 @@
 import pytest
 
-from log_analyzer.cli import parse_arguments
 from config import config as conf
+from log_analyzer.cli import parse_arguments
 
 
 @pytest.fixture
@@ -27,7 +27,8 @@ def test_single_input_file(set_sys_argv):
 
 def test_multiple_input_files(set_sys_argv):
     set_sys_argv(
-        ["script_name.py", "input1.log", "input2.log", "input3.log", "output.json"]
+        ["script_name.py", "input1.log",
+         "input2.log", "input3.log", "output.json"]
     )
 
     args = parse_arguments()
@@ -41,7 +42,8 @@ def test_multiple_input_files(set_sys_argv):
 
 
 def test_combination_of_flags(set_sys_argv):
-    set_sys_argv(["script_name.py", "input.log", "output.json", "--mfip", "--eps"])
+    set_sys_argv([
+        "script_name.py", "input.log", "output.json", "--mfip", "--eps"])
 
     args = parse_arguments()
 
@@ -55,7 +57,7 @@ def test_combination_of_flags(set_sys_argv):
 
 def test_allowed_output_formats(set_sys_argv):
     for format_ in conf.output_allowed_formats:
-        set_sys_argv(["script_name.py", "input.log", "output.json",
-                      "-f", format_])
+        set_sys_argv([
+            "script_name.py", "input.log", "output.json", "-f", format_])
         args = parse_arguments()
         assert args.out_format == format_

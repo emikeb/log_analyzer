@@ -8,7 +8,8 @@ class BaseLogAnalyzer(ABC):
 
     @abstractmethod
     def parse_logs(self):
-        raise NotImplementedError("Subclasses should implement parse_logs method.")
+        raise NotImplementedError(
+            "Subclasses should implement parse_logs method.")
 
     @abstractmethod
     def most_frequent_ip(self):
