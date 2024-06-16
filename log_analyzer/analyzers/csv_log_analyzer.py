@@ -4,6 +4,20 @@ import numpy as np
 from .base_log_analyzer import BaseLogAnalyzer
 
 
+def parse_timestamp(value):
+    try:
+        return float(value)
+    except ValueError:
+        return 0.0
+
+
+def parse_int(value):
+    try:
+        return int(value)
+    except ValueError:
+        return 0
+
+
 class CSVLogAnalyzer(BaseLogAnalyzer):
     def parse_logs(self):
         columns = [
@@ -35,23 +49,11 @@ class CSVLogAnalyzer(BaseLogAnalyzer):
         self.logs = pd.concat(logs_list, ignore_index=True)
 
         self.logs["timestamp"] = self.logs["timestamp"].apply(
-            self.parse_timestamp)
+            parse_timestamp)
         self.logs["response_header_size"] = self.logs[
-            "response_header_size"].apply(self.parse_int)
+            "response_header_size"].apply(parse_int)
         self.logs["response_size"] = self.logs["response_size"].apply(
-            self.parse_int)
-
-    def parse_timestamp(self, value):
-        try:
-            return float(value)
-        except ValueError:
-            return 0.0
-
-    def parse_int(self, value):
-        try:
-            return int(value)
-        except ValueError:
-            return 0
+            parse_int)
 
     def most_frequent_ip(self):
         if self.logs.empty:

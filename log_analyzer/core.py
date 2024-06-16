@@ -1,4 +1,3 @@
-from config import config as conf
 from log_analyzer.factories.log_analyzer_factory import LogAnalyzerFactory
 from log_analyzer.factories.output_formatter_factory import \
     OutputFormatterFactory

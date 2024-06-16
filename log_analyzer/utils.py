@@ -2,8 +2,6 @@ import logging
 import sys
 
 from pathlib import Path
-
-from config import constants as cons
 from config import config as conf
 
 
@@ -14,12 +12,12 @@ def file_validator(args):
             "Not all files have the same format: {}".format(", ".join(file_formats))
         )
     file_format = file_formats.pop()
-    if file_format not in cons.input_allowed_formats:
+    if file_format not in conf.input_allowed_formats:
         raise ValueError("Unsupported file format {}.".format(format))
     return file_format
 
 
-def set_logger(name='logger', log_file=conf.log_file_path):
+def set_logger(name='logger', log_file=conf.log_file_path, console_debug = False):
     logger = logging.getLogger(name)
     if not logger.hasHandlers():
         logger.setLevel(logging.DEBUG)
@@ -34,7 +32,7 @@ def set_logger(name='logger', log_file=conf.log_file_path):
 
         # logging to the console
         sh = logging.StreamHandler(sys.stdout)
-        sh.setLevel(logging.WARNING)
+        sh.setLevel(logging.DEBUG if console_debug else logging.WARNING)
         formatter = logging.Formatter('%(levelname)s: %(message)s')
         sh.setFormatter(formatter)
 

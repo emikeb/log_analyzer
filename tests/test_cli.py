@@ -1,7 +1,7 @@
 import pytest
 
 from log_analyzer.cli import parse_arguments
-from config import constants as cons
+from config import config as conf
 
 
 @pytest.fixture
@@ -54,7 +54,7 @@ def test_combination_of_flags(set_sys_argv):
 
 
 def test_allowed_output_formats(set_sys_argv):
-    for format_ in cons.output_allowed_formats:
+    for format_ in conf.output_allowed_formats:
         set_sys_argv(["script_name.py", "input.log", "output.json",
                       "-f", format_])
         args = parse_arguments()

@@ -8,8 +8,6 @@ from log_analyzer.utils import set_logger
 
 
 def parse_arguments():
-    # We could also use click package here but used argparse to avoid a
-    # new dependency
     parser = argparse.ArgumentParser(description="Log Analyzer Tool")
     parser.add_argument("input", nargs="+", help="Path to input log file(s)")
     parser.add_argument("output", help="Path to output JSON file")
@@ -22,20 +20,23 @@ def parse_arguments():
     )
     parser.add_argument(
         "-f", "--out_format",
-        choices=[fmt for fmt in cons.output_allowed_formats],
+        choices=[fmt for fmt in conf.output_allowed_formats],
         default=conf.default_output_format,
         help="Output format of the result. Only accepts {}. Default is '{}'."
-        .format(cons.output_allowed_formats, conf.default_output_format)
+        .format(conf.output_allowed_formats, conf.default_output_format)
     )
+    parser.add_argument('--debug', action='store_true',
+                        help='Enable debug logging in console')
     parser.add_argument('--version', action='version', version=cons.VERSION)
     return parser.parse_args()
 
 
 def main():
-    logger = set_logger()
+    args = parse_arguments()
+    logger = set_logger(console_debug=args.debug)
     logger.info(f'Starting the program with arguments: {sys.argv}')
     try:
-        core = Core(parse_arguments())
+        core = Core(args)
         core.analyze_input()
         output = core.generate_output(core.get_analysis_results())
         logger.info(output)
