@@ -1,12 +1,13 @@
-from enum import Enum
+VERSION = "1.0.0"
 
+#formats
+JSON = ".json"
+XLSX = ".xlsx"
+CSV = ".csv"
+LOG = ".log"
+XML = ".xml"
 
-class FileFormat(Enum):
-    JSON = ".json"
-    XLSX = ".xlsx"
-    CSV = ".csv"
-    LOG = ".log"
-    XML = ".xml"
+input_allowed_formats = {CSV, LOG}
+output_allowed_formats = {CSV, JSON, XML}
 
-
-allowed_formats = {format_.value for format_ in FileFormat}
+LOG_FILE = "../log_analyzer_tool.log"

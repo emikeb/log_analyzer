@@ -7,7 +7,7 @@ from log_analyzer.utils import file_validator
 
 def test_single_file_supported_format():
     args = Mock()
-    args.input = ["file1.json"]
+    args.input = ["file1.log"]
     try:
         file_validator(args)
     except ValueError:
@@ -16,7 +16,7 @@ def test_single_file_supported_format():
 
 def test_single_supported_format_multiple_files():
     args = Mock()
-    args.input = ["file1.json", "file2.json", "file3.json"]
+    args.input = ["file1.csv", "file2.csv", "file3.csv"]
     try:
         file_validator(args)
     except ValueError:

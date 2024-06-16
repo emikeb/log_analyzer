@@ -1,8 +1,9 @@
 from setuptools import find_packages, setup
+from config import constants as cons
 
 setup(
     name="log_analyzer",
-    version="1.0.0",
+    version=cons.VERSION,
     packages=find_packages(),
     entry_points={
         "console_scripts": [

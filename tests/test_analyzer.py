@@ -34,7 +34,7 @@ def test_most_frequent_ip(mock_read_csv, sample_data):
     mock_read_csv.return_value = sample_data
 
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        ["dummy_path.csv"], cons.FileFormat.CSV.value
+        ["dummy_path.csv"], cons.CSV
     )
     analyzer.parse_logs()
     assert analyzer.most_frequent_ip() == "10.105.21.199"
@@ -45,7 +45,7 @@ def test_least_frequent_ip(mock_read_csv, sample_data):
     mock_read_csv.return_value = sample_data
 
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        ["dummy_path.csv"], cons.FileFormat.CSV.value
+        ["dummy_path.csv"], cons.CSV
     )
     analyzer.parse_logs()
     assert analyzer.least_frequent_ip() == "10.105.21.200"
@@ -56,7 +56,7 @@ def test_events_per_second(mock_read_csv, sample_data):
     mock_read_csv.return_value = sample_data
 
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        ["dummy_path.csv"], cons.FileFormat.CSV.value
+        ["dummy_path.csv"], cons.CSV
     )
     analyzer.parse_logs()
     assert analyzer.events_per_second() == 1.5
@@ -67,7 +67,7 @@ def test_total_bytes_exchanged(mock_read_csv, sample_data):
     mock_read_csv.return_value = sample_data
 
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        ["dummy_path.csv"], cons.FileFormat.CSV.value
+        ["dummy_path.csv"], cons.CSV
     )
     analyzer.parse_logs()
     assert analyzer.total_bytes_exchanged() == 5313
@@ -92,7 +92,7 @@ def test_empty_file(mock_read_csv):
     mock_read_csv.return_value = empty_data
 
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        ["dummy_path.csv"], cons.FileFormat.CSV.value
+        ["dummy_path.csv"], cons.CSV
     )
     analyzer.parse_logs()
     assert analyzer.most_frequent_ip() is None
@@ -107,7 +107,7 @@ def test_single_entry(mock_read_csv, sample_data):
     mock_read_csv.return_value = single_entry_data
 
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        ["dummy_path.csv"], cons.FileFormat.CSV.value
+        ["dummy_path.csv"], cons.CSV
     )
     analyzer.parse_logs()
     assert analyzer.most_frequent_ip() == "10.105.21.199"
@@ -139,7 +139,7 @@ def test_invalid_timestamp_data_type(mock_read_csv):
     mock_read_csv.return_value = invalid_data
 
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        ["dummy_path.csv"], cons.FileFormat.CSV.value
+        ["dummy_path.csv"], cons.CSV
     )
     analyzer.parse_logs()
 
@@ -169,7 +169,7 @@ def test_invalid_header_response_size_data_type(mock_read_csv):
     mock_read_csv.return_value = invalid_data
 
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        ["dummy_path.csv"], cons.FileFormat.CSV.value
+        ["dummy_path.csv"], cons.CSV
     )
     analyzer.parse_logs()
 

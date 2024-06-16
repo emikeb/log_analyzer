@@ -1,6 +1,6 @@
 import pytest
 
-from config.constants import FileFormat
+from config import constants as cons
 from log_analyzer.analyzers.csv_log_analyzer import CSVLogAnalyzer
 from log_analyzer.analyzers.excel_log_analyzer import ExcelLogAnalyzer
 from log_analyzer.analyzers.json_log_analyzer import JSONLogAnalyzer
@@ -14,7 +14,7 @@ def sample_file_path():
 
 def test_create_log_analyzer_csv(sample_file_path):
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        sample_file_path, FileFormat.CSV.value
+        sample_file_path, cons.CSV
     )
     assert isinstance(analyzer, CSVLogAnalyzer)
     assert analyzer.files == sample_file_path
@@ -22,7 +22,7 @@ def test_create_log_analyzer_csv(sample_file_path):
 
 def test_create_log_analyzer_json(sample_file_path):
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        sample_file_path, FileFormat.JSON.value
+        sample_file_path, cons.JSON
     )
     assert isinstance(analyzer, JSONLogAnalyzer)
     assert analyzer.files == sample_file_path
@@ -30,7 +30,7 @@ def test_create_log_analyzer_json(sample_file_path):
 
 def test_create_log_analyzer_xlsx(sample_file_path):
     analyzer = LogAnalyzerFactory.create_log_analyzer(
-        sample_file_path, FileFormat.XLSX.value
+        sample_file_path, cons.XLSX
     )
     assert isinstance(analyzer, ExcelLogAnalyzer)
     assert analyzer.files == sample_file_path

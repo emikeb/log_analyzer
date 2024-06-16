@@ -32,7 +32,7 @@ class Core:
 
     def generate_output(self, results):
         output_formatter = OutputFormatterFactory.create_output_formatter(
-            self.args.output, conf.default_output_format
+            self.args.output, self.args.out_format
         )
         output = output_formatter.format_output(results)
         return output
