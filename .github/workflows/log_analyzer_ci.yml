@@ -19,7 +19,7 @@ jobs:
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        echo "${{ runner.workspace }}/.local/bin" >> $GITHUB_PATH
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
     - name: Install dependencies
       run: |
         poetry install --no-root
@@ -27,7 +27,7 @@ jobs:
       continue-on-error: true
       run: |
         poetry run flake8 .
-    - Name: Run Black
+    - name: Run Black
       continue-on-error: true
       run: |
         poetry run black --check .
@@ -52,7 +52,7 @@ jobs:
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        echo "${{ runner.workspace }}/.local/bin" >> $GITHUB_PATH
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
     - name: Install dependencies
       run: |
         poetry install --no-root
@@ -76,7 +76,7 @@ jobs:
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
-        echo "${{ runner.workspace }}/.local/bin" >> $GITHUB_PATH
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
     - name: Install dependencies
       run: |
         poetry install
