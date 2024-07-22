@@ -1,4 +1,4 @@
-from .base_formatter import BaseFormatter
+from log_analyzer.formatters.base_formatter import BaseFormatter
 
 
 class CsvFormatter(BaseFormatter):

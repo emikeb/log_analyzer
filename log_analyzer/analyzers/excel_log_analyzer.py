@@ -1,4 +1,4 @@
-from .base_log_analyzer import BaseLogAnalyzer
+from log_analyzer.analyzers.base_log_analyzer import BaseLogAnalyzer
 
 
 class ExcelLogAnalyzer(BaseLogAnalyzer):

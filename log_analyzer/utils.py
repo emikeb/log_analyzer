@@ -2,7 +2,7 @@ import logging
 import sys
 from pathlib import Path
 
-from config import config as conf
+from log_analyzer.config import config as conf
 
 
 def file_validator(args):

@@ -1,3 +1,0 @@
-pandas~=2.2.2
-pytest~=8.2.2
-setuptools~=68.2.0

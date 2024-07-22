@@ -1,6 +1,6 @@
 import pytest
 
-from config import constants as cons
+from log_analyzer.config import constants as cons
 from log_analyzer.factories.output_formatter_factory import \
     OutputFormatterFactory
 from log_analyzer.formatters.csv_formatter import CsvFormatter

@@ -1,10 +1,7 @@
 import argparse
-import sys
 
-from config import config as conf
-from config import constants as cons
-from log_analyzer.core import Core
-from log_analyzer.utils import set_logger
+from log_analyzer.config import config as conf
+from log_analyzer.config import constants as cons
 
 
 def parse_arguments():
@@ -33,28 +30,3 @@ def parse_arguments():
     )
     parser.add_argument("--version", action="version", version=cons.VERSION)
     return parser.parse_args()
-
-
-def main():
-    args = parse_arguments()
-    logger = set_logger(console_debug=args.debug)
-    logger.info(f"Starting the program with arguments: {sys.argv}")
-    try:
-        core = Core(args)
-        core.analyze_input()
-        output = core.generate_output(core.get_analysis_results())
-        logger.info(output)
-        print(output)
-    except FileNotFoundError as e:
-        logger.error(f"File not found: {e}", exc_info=True)
-        sys.exit(1)
-    except ValueError as e:
-        logger.error(f"ValueError: {e}", exc_info=True)
-        sys.exit(1)
-    except Exception as e:
-        logger.error(f"An unexpected error occurred: {e}", exc_info=True)
-        sys.exit(1)
-
-
-if __name__ == "__main__":
-    main()

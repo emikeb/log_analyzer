@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pandas as pd
 import pytest
 
-from config import constants as cons
+from log_analyzer.config import constants as cons
 from log_analyzer.factories.log_analyzer_factory import LogAnalyzerFactory
 
 

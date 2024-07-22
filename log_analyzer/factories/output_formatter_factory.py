@@ -1,8 +1,8 @@
-from config import constants as cons
+from log_analyzer.config import constants as cons
 
-from ..formatters.csv_formatter import CsvFormatter
-from ..formatters.json_formatter import JsonFormatter
-from ..formatters.xml_formatter import XmlFormatter
+from log_analyzer.formatters.csv_formatter import CsvFormatter
+from log_analyzer.formatters.json_formatter import JsonFormatter
+from log_analyzer.formatters.xml_formatter import XmlFormatter
 
 
 class OutputFormatterFactory:

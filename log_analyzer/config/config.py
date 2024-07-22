@@ -1,6 +1,6 @@
 import logging
 
-import config.constants as c
+import log_analyzer.config.constants as c
 
 default_output_format = c.JSON  # not used if argument -f provided
 

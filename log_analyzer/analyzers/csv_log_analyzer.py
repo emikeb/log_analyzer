@@ -1,6 +1,6 @@
 import pandas as pd
 
-from .base_log_analyzer import BaseLogAnalyzer
+from log_analyzer.analyzers.base_log_analyzer import BaseLogAnalyzer
 
 
 def parse_timestamp(value):
