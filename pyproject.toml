@@ -11,11 +11,18 @@ python = "^3.11"
 pandas = ">=2.2.2,<2.3.0"
 pytest = ">=8.2.2,<8.3.0"
 
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.0"
+black = "^24.4.2"
+isort = "^5.13.2"
+mypy = "^1.11.0"
+coverage = "^7.6.0"
+safety = "^3.2.4"
+bandit = "^1.7.9"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
 
 [tool.poetry.scripts]
 log-analyzer = "log_analyzer.log_analyzer:main"
