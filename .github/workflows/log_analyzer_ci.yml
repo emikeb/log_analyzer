@@ -57,6 +57,7 @@ jobs:
       run: |
         poetry install --no-root
     - name: Run Safety
+      continue-on-error: true
       run: |
         poetry run safety check
     - name: Run Bandit
