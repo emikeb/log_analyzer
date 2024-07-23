@@ -1,7 +1,7 @@
 import pytest
 
-from log_analyzer.config import config as conf
 from log_analyzer.cli import parse_arguments
+from log_analyzer.config import config as conf
 
 
 @pytest.fixture
