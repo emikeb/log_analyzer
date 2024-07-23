@@ -29,7 +29,7 @@ Log Analyzer is a Python tool designed to parse and analyze log files, extractin
 ### Prerequisites
 
 - Python 3.11
-- `pip` package manager
+- Poetry
 
 ### From Source
 
@@ -40,10 +40,10 @@ Log Analyzer is a Python tool designed to parse and analyze log files, extractin
     cd log_analyzer
     ```
 
-2. Install the package:
+2. Install dependencies using Poetry:
 
     ```bash
-    pip install .
+    poetry install
     ```
 
 ### Using Docker
@@ -57,7 +57,7 @@ Log Analyzer is a Python tool designed to parse and analyze log files, extractin
 2. Run the container:
 
     ```bash
-    docker run --rm -v $(pwd)/logs:/logs log-analyzer /logs/access.log /logs/output.json --mfip --lfip --eps --bytes
+    docker run --rm -v $(pwd)/log_analyzer/logs:/logs log-analyzer /logs/access.log /logs/output.json --mfip --lfip --eps --bytes
     ```
 
 ## Command Line Interface
@@ -116,10 +116,10 @@ Traceback (most recent call last):
 ## Testing
 
 To run the tests for this project, use the following commands:
-   
+
    ```bash
-   pip install pytest
-   pytest
+   poetry install --no-root
+   poetry run pytest
    ```
 
 ## Continuous Integration
@@ -151,7 +151,7 @@ Each workflow runs on an ubuntu environment and results of these workflows can b
 
 ## Assumptions
 
-The project aims to meet diverse input and output format requirements while ensuring fault tolerance and considering future extensibility. 
+The project aims to meet diverse input and output format requirements while ensuring fault tolerance and considering future extensibility.
 Additionally, efforts were made to align with DevSecOps best practices and containerize the application.
 However, certain design assumptions were made during development:
 
@@ -162,6 +162,3 @@ However, certain design assumptions were made during development:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
-
-   
-
