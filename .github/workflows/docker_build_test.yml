@@ -6,7 +6,6 @@ permissions:
   contents: read
 
 jobs:
-
   build-and-test:
     runs-on: ubuntu-latest
 
@@ -20,16 +19,19 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag log_analyzer:latest
 
+    - name: Create logs directory
+      run: mkdir -p log_analyzer/logs
+
     - name: Add sample log file
-      run: echo '1157689321.315     36 10.105.21.199 TCP_HIT/200 1464 GET http://www.goonernews.com/styles.css badeyek NONE/- text/css' > logs/access.log
+      run: echo '1157689321.315     36 10.105.21.199 TCP_HIT/200 1464 GET http://www.goonernews.com/styles.css badeyek NONE/- text/css' > log_analyzer/logs/access.log
 
     - name: Run the Docker container
       run: |
-        docker run --rm -v $(pwd)/logs:/logs log_analyzer /logs/access.log /logs/output.json --mfip --lfip --eps --bytes
+        docker run --rm -v $(pwd)/log_analyzer/logs:/logs log_analyzer /logs/access.log /logs/output.json --mfip --lfip --eps --bytes
 
     - name: Check output
       run: |
-        output=$(cat logs/output.json | tr -d '[:space:]')
+        output=$(cat log_analyzer/logs/output.json | tr -d '[:space:]')
         expected_output='{"most_frequent_ip":"10.105.21.199","least_frequent_ip":"10.105.21.199","events_per_second":0,"total_bytes_exchanged":1500}'
         if [ "$output" != "$expected_output" ]; then
           echo "Output does not match expected output."

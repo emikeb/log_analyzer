@@ -1,8 +1,9 @@
 import sys
 
+from log_analyzer.cli import parse_arguments
 from log_analyzer.core import Core
 from log_analyzer.utils import set_logger
-from log_analyzer.cli import parse_arguments
+
 
 def main():
     args = parse_arguments()

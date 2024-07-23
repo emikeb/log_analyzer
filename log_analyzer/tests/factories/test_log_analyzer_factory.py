@@ -1,9 +1,9 @@
 import pytest
 
-from log_analyzer.config import constants as cons
 from log_analyzer.analyzers.csv_log_analyzer import CSVLogAnalyzer
 from log_analyzer.analyzers.excel_log_analyzer import ExcelLogAnalyzer
 from log_analyzer.analyzers.json_log_analyzer import JSONLogAnalyzer
+from log_analyzer.config import constants as cons
 from log_analyzer.factories.log_analyzer_factory import LogAnalyzerFactory
 
 
