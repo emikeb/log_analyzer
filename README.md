@@ -2,7 +2,9 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.11-blue.svg)](https://python.org)
 [![Build Status](https://github.com/EUGEMIKE1/log_analyzer/actions/workflows/log_analyzer_ci.yml/badge.svg)](https://github.com/EUGEMIKE1/log_analyzer/actions)
+[![codecov](https://codecov.io/github/emikeb/log_analyzer/graph/badge.svg?token=4WBBGO89IB)](https://codecov.io/github/emikeb/log_analyzer)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
 
 Log Analyzer is a Python tool designed to parse and analyze log files, extracting useful metrics such as the most and least frequent IP addresses, events per second, and total bytes exchanged.
 
@@ -36,7 +38,7 @@ Log Analyzer is a Python tool designed to parse and analyze log files, extractin
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/EUGEMIKE1/log_analyzer.git
+    git clone https://github.com/emikeb/log_analyzer.git
     cd log_analyzer
     ```
 
