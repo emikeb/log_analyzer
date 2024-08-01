@@ -18,28 +18,26 @@ def file_validator(args):
     return file_format
 
 
-def set_logger(name="logger", log_file=conf.log_file_path,
+def set_logger(name="logger", log_file="../log_analyzer_tool.log" ,
                console_debug=False):
     logger = logging.getLogger(name)
     if not logger.hasHandlers():
         logger.setLevel(logging.DEBUG)
 
-        # logging to the file
-        fh = logging.FileHandler(log_file)
-        fh.setLevel(conf.log_file_logging_level)
+        filehandler = logging.FileHandler(log_file)
+        filehandler.setLevel(logging.DEBUG)
         file_formatter = logging.Formatter(
             "%(asctime)s: %(levelname)s: %(message)s",
             datefmt="%a, %d %b %Y %H:%M:%S"
         )
-        fh.setFormatter(file_formatter)
+        filehandler.setFormatter(file_formatter)
 
-        # logging to the console
-        sh = logging.StreamHandler(sys.stdout)
-        sh.setLevel(logging.DEBUG if console_debug else logging.WARNING)
+        console = logging.StreamHandler(sys.stdout)
+        console.setLevel(logging.DEBUG if console_debug else logging.WARNING)
         formatter = logging.Formatter("%(levelname)s: %(message)s")
-        sh.setFormatter(formatter)
+        console.setFormatter(formatter)
 
-        logger.addHandler(fh)
-        logger.addHandler(sh)
+        logger.addHandler(filehandler)
+        logger.addHandler(console)
 
     return logger

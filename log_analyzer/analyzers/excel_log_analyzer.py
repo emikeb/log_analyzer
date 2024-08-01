@@ -2,6 +2,10 @@ from log_analyzer.analyzers.base_log_analyzer import BaseLogAnalyzer
 
 
 class ExcelLogAnalyzer(BaseLogAnalyzer):
+    """
+    TODO: This class serves as a placeholder to demonstrate scalability 
+    and future enhancements.
+    """
     def parse_logs(self):
         pass
 

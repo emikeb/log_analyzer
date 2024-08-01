@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "log-analyzer"
+name = "log_analyzer"
 version = "1.1.0"
 description = "Command-line tool to analyze the content of log files."
 authors = ["mike <eugemike09@gmail.com>"]
@@ -25,4 +25,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-log-analyzer = "log_analyzer.log_analyzer:main"
+log_analyzer = "log_analyzer.__main__:main"

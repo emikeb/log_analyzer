@@ -18,7 +18,7 @@ Log Analyzer is a Python tool designed to parse and analyze log files, extractin
 ## Table of Contents
 
 - [Installation](#installation)
-- [Command Line Interface](#command-line-interface)
+- [How to use](#command-line-interface)
 - [Examples](#examples)
 - [Tools Logs](#tool-logs)
 - [Testing](#testing)
@@ -53,21 +53,21 @@ Log Analyzer is a Python tool designed to parse and analyze log files, extractin
 1. Build the Docker image:
 
     ```bash
-    docker build -t log-analyzer .
+    docker build -t log_analyzer .
     ```
 
-2. Run the container:
+2. Run the container with a volume that contains logs to analyze, for example:
 
     ```bash
     docker run --rm -v $(pwd)/log_analyzer/logs:/logs log-analyzer /logs/access.log /logs/output.json --mfip --lfip --eps --bytes
     ```
 
-## Command Line Interface
+## How to use
 
 To analyze logs from the command line, use the following syntax:
 
 ```bash
-log-analyzer [OPTIONS] input_files... output_file
+log_analyzer [OPTIONS] input_files... output_file
 ```
 **Options:**
 
@@ -82,7 +82,7 @@ log-analyzer [OPTIONS] input_files... output_file
 **Example:**
 
 ```bash
-log-analyzer --mfip --lfip --eps --bytes logs/access.log output.json
+log_analyzer --mfip --lfip --eps --bytes logs/access.log output.json
 ```
 
 ## Examples
@@ -90,7 +90,7 @@ log-analyzer --mfip --lfip --eps --bytes logs/access.log output.json
 ### Most Frequent IP:
 
 ```bash
-log-analyzer --mfip logs/access.log output.json
+log_analyzer --mfip logs/example.log output.json
 ```
 
 ### Full Analysis:
@@ -98,7 +98,7 @@ log-analyzer --mfip logs/access.log output.json
 To perform a comprehensive analysis of your log file, including calculating the most frequent IP address, least frequent IP address, events per second (EPS), and total bytes exchanged, use the following command:
 
 ```bash
-log-analyzer --mfip --lfip --eps --bytes logs/access.log output.json
+log_analyzer --mfip --lfip --eps --bytes logs/example.log output.json
 ```
 
 ## Tool logs
@@ -128,10 +128,9 @@ To run the tests for this project, use the following commands:
 
 ### Docker Image CI
 
-The Docker Image CI workflow ensures the Log Analyzer Docker image is built correctly and passes system tests:
+The Docker Image CI workflow ensures the Log Analyzer Docker image is built correctly and passes a simple system test:
 
-- **Trigger**: Automatically runs on `push` and `pull_request` events.
-- **Steps**:
+
   1. **Checkout code**: Retrieves the latest code from the repository.
   2. **Build the Docker image**: Builds the Log Analyzer Docker image using Dockerfile.
   3. **Add sample log file**: Creates a sample log file for testing purposes.
@@ -140,10 +139,8 @@ The Docker Image CI workflow ensures the Log Analyzer Docker image is built corr
 
 ### Log Analyzer CI
 
-The Log Analyzer CI workflow integrates DevSecOps best practices to enhance security, quality, and reliability:
+The Log Analyzer CI workflow integrates:
 
-- **Trigger**: Automatically runs on `push` and `pull_request` events.
-- **Jobs**:
   - **Linting and Static Analysis**: Ensures code style and identifies potential issues using Flake8, Black, isort, and MyPy.
   - **Security Checks**: Validates code security with checks using Safety and Bandit to detect vulnerabilities and insecure practices.
   - **Testing and Coverage**: Executes unit tests with pytest and measures code coverage using Coverage.py to maintain quality and reliability.
@@ -152,10 +149,6 @@ By adhering to DevSecOps best practices in our CI workflows, we prioritize secur
 Each workflow runs on an ubuntu environment and results of these workflows can be viewed directly in the GitHub Actions tab.
 
 ## Assumptions
-
-The project aims to meet diverse input and output format requirements while ensuring fault tolerance and considering future extensibility.
-Additionally, efforts were made to align with DevSecOps best practices and containerize the application.
-However, certain design assumptions were made during development:
 
 - All input files must adhere to the same format when processing multiple input files simultaneously.
 - During log parsing, if an invalid record is encountered, attempts are made to parse different values, ignoring erroneous data to ensure robust processing.

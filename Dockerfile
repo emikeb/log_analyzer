@@ -7,4 +7,4 @@ RUN poetry install --no-root
 COPY . /app/
 RUN poetry install
 
-ENTRYPOINT ["poetry", "run", "log-analyzer"]
+ENTRYPOINT ["poetry", "run", "log_analyzer"]
