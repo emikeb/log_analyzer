@@ -1,5 +1,8 @@
-import logging
-import sys
+
+import json
+import logging.config
+import os
+
 from pathlib import Path
 
 from log_analyzer.config import config as conf
@@ -18,26 +21,51 @@ def file_validator(args):
     return file_format
 
 
-def set_logger(name="logger", log_file="../log_analyzer_tool.log" ,
-               console_debug=False):
-    logger = logging.getLogger(name)
-    if not logger.hasHandlers():
-        logger.setLevel(logging.DEBUG)
 
-        filehandler = logging.FileHandler(log_file)
-        filehandler.setLevel(logging.DEBUG)
-        file_formatter = logging.Formatter(
-            "%(asctime)s: %(levelname)s: %(message)s",
-            datefmt="%a, %d %b %Y %H:%M:%S"
-        )
-        filehandler.setFormatter(file_formatter)
+def set_logger_config(log_file="log_analyzer_tool.log", console_debug=False):
+    config = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "bare": {
+                "format": "[%(asctime)s] [%(process)d] [%(levelname)s] %(name)s: %(message)s",
+                "datefmt": "%Y-%m-%d %H:%M:%S",
+            },
+            "file": {
+                "format": "%(asctime)s: %(levelname)s: %(message)s",
+                "datefmt": "%a, %d %b %Y %H:%M:%S",
+            },
+        },
+        "handlers": {
+            "console": {
+                "formatter": "bare",
+                "class": "logging.StreamHandler",
+                "stream": "ext://sys.stdout",
+                "level": "DEBUG" if console_debug else "WARNING",
+            },
+            "file": {
+                "formatter": "file",
+                "class": "logging.FileHandler",
+                "filename": log_file,
+                "level": "DEBUG",
+            },
+        },
+        "loggers": {
+            "": {
+                "handlers": ["console", "file"],
+                "level": "DEBUG",
+            },
+        },
+    }
 
-        console = logging.StreamHandler(sys.stdout)
-        console.setLevel(logging.DEBUG if console_debug else logging.WARNING)
-        formatter = logging.Formatter("%(levelname)s: %(message)s")
-        console.setFormatter(formatter)
+    return config
 
-        logger.addHandler(filehandler)
-        logger.addHandler(console)
+def init_logging():
+    config = set_logger_config()
 
-    return logger
+    path = os.getenv("ANALYZER_LOGGING_CONFIG")
+    if path:
+        with open(path, encoding="utf-8") as f:
+            config = json.load(f)
+
+    logging.config.dictConfig(config)
